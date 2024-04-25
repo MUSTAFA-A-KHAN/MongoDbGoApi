@@ -7,9 +7,15 @@ on:
       - completed
 
 jobs:
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start execution
+        run: echo "Starting execution..."
+
   execute_build:
     runs-on: ubuntu-latest
-    needs: Go
+    needs: [build]
     steps:
       - name: Download executables artifact
         uses: actions/download-artifact@v2
