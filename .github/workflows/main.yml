@@ -14,7 +14,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: executables
-          path: executables
+          path: executables/
+          
+      - name: List downloaded files
+        run: ls -R executables
 
       - name: Run executable
         run: ./executables/your_executable_name
