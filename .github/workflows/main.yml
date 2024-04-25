@@ -1,0 +1,21 @@
+name: Execute Build
+
+on:
+  workflow_run:
+    workflows: ["Go"]
+    types:
+      - completed
+
+jobs:
+  execute_build:
+    runs-on: ubuntu-latest
+    needs: Go
+    steps:
+      - name: Download executables artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: executables
+          path: executables
+
+      - name: Run executable
+        run: ./executables/your_executable_name
