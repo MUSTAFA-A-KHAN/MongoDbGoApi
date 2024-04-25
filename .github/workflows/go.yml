@@ -30,5 +30,12 @@ jobs:
         name: executables
         path: executables
 
+    - name: ls comand
+      run: |
+            ls
+            pwd
+
+      
+
     - name: Test
       run: go test -v ./...
