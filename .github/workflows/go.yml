@@ -35,6 +35,24 @@ jobs:
             ls
             pwd
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download executables artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: executables
+          path: executables/
+          
+      - name: List downloaded files
+        run: ls -R executables
+
+      - name: Run executable
+        run: ./executables/mongoapi 
+
+  
+
       
 
     - name: Test
