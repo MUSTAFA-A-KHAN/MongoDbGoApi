@@ -24,5 +24,11 @@ jobs:
     - name: Build
       run: go build -o ./executables -v ./...
 
+    - name: Archive executables
+      uses: actions/upload-artifact@v2
+      with:
+        name: executables
+        path: executables
+
     - name: Test
       run: go test -v ./...
