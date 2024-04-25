@@ -15,7 +15,7 @@ jobs:
 
   execute_build:
     runs-on: ubuntu-latest
-    needs: Go
+    needs: ["Go"]
     steps:
       - name: Download executables artifact
         uses: actions/download-artifact@v2
