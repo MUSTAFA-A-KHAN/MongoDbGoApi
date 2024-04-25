@@ -1,14 +1,44 @@
-name: Execute Build
+name: Go
 
 on:
-  workflow_run:
-    workflows: ["Go"]
-    types:
-      - completed
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
-  execute_build:
+
+  build:
     runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Create executables folder
+      run: mkdir -p executables
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.22.2
+
+    - name: Build
+      run: go build -o ./executables -v ./...
+
+    - name: Archive executables
+      uses: actions/upload-artifact@v2
+      with:
+        name: executables
+        path: executables
+
+    - name: ls command
+      run: |
+            ls
+            pwd
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Download executables artifact
         uses: actions/download-artifact@v2
@@ -19,11 +49,11 @@ jobs:
       - name: List downloaded files
         run: ls -R executables
 
-      - name: Run executable
-        run: ./executables/your_executable_name
+      - name: Make mongoapi executable
+        run: chmod +x executables/mongoapi
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        run: echo "Building..."
+      - name: Run executable
+        run: ./executables/mongoapi
+
+      - name: Test
+        run: go test -v ./...
