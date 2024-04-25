@@ -49,6 +49,9 @@ jobs:
       - name: List downloaded files
         run: ls -R executables
 
+      - name: Make mongoapi executable
+        run: chmod +x executables/mongoapi
+
       - name: Run executable
         run: ./executables/mongoapi
 
