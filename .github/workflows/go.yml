@@ -11,13 +11,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Create executables folder
       run: mkdir -p executables
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v2
       with:
         go-version: 1.22.2
 
@@ -30,7 +31,7 @@ jobs:
         name: executables
         path: executables
 
-    - name: ls comand
+    - name: ls command
       run: |
             ls
             pwd
@@ -49,11 +50,7 @@ jobs:
         run: ls -R executables
 
       - name: Run executable
-        run: ./executables/mongoapi 
+        run: ./executables/mongoapi
 
-  
-
-      
-
-    - name: Test
-      run: go test -v ./...
+      - name: Test
+        run: go test -v ./...
