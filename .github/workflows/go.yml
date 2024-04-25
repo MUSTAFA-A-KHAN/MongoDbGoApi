@@ -1,6 +1,3 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
 name: Go
 
 on:
@@ -16,13 +13,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Create executables folder
+      run: mkdir -p executables
+
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: 1.22.2
 
     - name: Build
-      run: go build -v ./...
+      run: go build -o ./executables -v ./...
 
     - name: Test
       run: go test -v ./...
