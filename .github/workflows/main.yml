@@ -9,6 +9,7 @@ on:
 jobs:
   execute_build:
     runs-on: ubuntu-latest
+    needs: ["Go:build"]
     steps:
       - name: Download executables artifact
         uses: actions/download-artifact@v2
