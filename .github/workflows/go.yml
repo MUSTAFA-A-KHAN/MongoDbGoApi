@@ -47,7 +47,15 @@ jobs:
         run: chmod +x executables/mongoapi
 
       - name: Run executable
-        run: ./executables/mongoapi
+        run: ./executables/mongoapi &
+
+      - name: Snap Install ngrok
+        run: sudo snap install ngrok --devmode
+
+      - name: Start ngrok and expose ports
+        run: |
+          sudo ngrok authtoken 1x4H0neaMfnRX0ATJsuLhMP3lt3_tEj68PPQBGSMmY8wZMHH
+          sudo ngrok http 4000
 
       - name: Snap Install ngrok
         run: sudo snap install ngrok --devmode
