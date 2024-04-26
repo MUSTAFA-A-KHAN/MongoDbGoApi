@@ -1,4 +1,4 @@
-name: Go Application Workflow
+name: Go
 
 on:
   push:
@@ -7,29 +7,34 @@ on:
     branches: [ "master" ]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.22.2
+    - name: Create executables folder
+      run: mkdir -p executables
 
-      - name: Build
-        run: go build -o ./executables -v ./...
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.22.2
 
-      - name: Test
-        run: go test -v ./...
+    - name: Build
+      run: go build -o ./executables -v ./...
 
-      - name: Archive executables
-        uses: actions/upload-artifact@v2
-        with:
-          name: executables
-          path: executables
+    - name: Archive executables
+      uses: actions/upload-artifact@v2
+      with:
+        name: executables
+        path: executables
 
+    - name: ls command
+      run: |
+            ls
+            pwd
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -39,7 +44,7 @@ jobs:
         with:
           name: executables
           path: executables/
-
+          
       - name: List downloaded files
         run: ls -R executables
 
@@ -48,6 +53,9 @@ jobs:
 
       - name: Run executable
         run: ./executables/mongoapi &
+
+      - name: Test
+        run: go test -v ./...
 
       - name: Snap Install ngrok
         run: sudo snap install ngrok --devmode
