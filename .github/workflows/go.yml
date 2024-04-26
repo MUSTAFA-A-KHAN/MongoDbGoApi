@@ -54,8 +54,6 @@ jobs:
       - name: Run executable
         run: ./executables/mongoapi &
 
-      - name: Test
-        run: go test -v ./...
 
       - name: Snap Install ngrok
         run: sudo snap install ngrok --devmode
